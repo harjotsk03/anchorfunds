@@ -18,17 +18,13 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarButton: HapticTab,
-
-        // 👇 Bottom tab bar styling
         tabBarStyle: {
-          backgroundColor: "#1C4A8A", // your blue
+          backgroundColor: "#1C4A8A",
           borderTopWidth: 0,
           height: 80,
           paddingBottom: 14,
           paddingTop: 8,
         },
-
-        // 👇 Icon/text colors
         tabBarActiveTintColor: "#ffffff",
         tabBarInactiveTintColor: "#5f7db9ff",
       }}
@@ -40,14 +36,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <Home size={17} color={color} />,
         }}
       />
-      {/* <Tabs.Screen
-        name="learn"
-        options={{
-          title: "Learn",
-          tabBarIcon: ({ color }) => <GraduationCap size={20} color={color} />,
-        }}
-      /> */}
-
       <Tabs.Screen
         name="learn"
         options={{
@@ -56,13 +44,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <GraduationCap size={20} color={color} />,
         }}
       />
-      {/* <Tabs.Screen
-        name="resources"
-        options={{
-          title: "Resources",
-          tabBarIcon: ({ color }) => <BookOpenText size={20} color={color} />,
-        }}
-      /> */}
       <Tabs.Screen
         name="resources"
         options={{

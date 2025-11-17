@@ -1,45 +1,46 @@
+import { useColorScheme } from "@/hooks/use-color-scheme";
 import {
   DMSans_400Regular,
   DMSans_500Medium,
   DMSans_700Bold,
   useFonts,
 } from "@expo-google-fonts/dm-sans";
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { SplashScreen, Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
+import { SplashScreen, Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
 
-
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { useEffect } from 'react';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 
-   const [fontsLoaded] = useFonts({
-     DMSans_400Regular,
-     DMSans_500Medium,
-     DMSans_700Bold,
-   });
+  const [fontsLoaded] = useFonts({
+    DMSans_400Regular,
+    DMSans_500Medium,
+    DMSans_700Bold,
+  });
 
-   useEffect(() => {
-     if (fontsLoaded) {
-       SplashScreen.hideAsync();
-     }
-   }, [fontsLoaded]);
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
 
-  if (!fontsLoaded) return null;
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
