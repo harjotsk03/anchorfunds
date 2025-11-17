@@ -40,10 +40,19 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <Home size={17} color={color} />,
         }}
       />
+      {/* <Tabs.Screen
+        name="learn"
+        options={{
+          title: "Learn",
+          tabBarIcon: ({ color }) => <GraduationCap size={20} color={color} />,
+        }}
+      /> */}
+
       <Tabs.Screen
         name="learn"
         options={{
           title: "Learn",
+          headerShown: false,
           tabBarIcon: ({ color }) => <GraduationCap size={20} color={color} />,
         }}
       />
