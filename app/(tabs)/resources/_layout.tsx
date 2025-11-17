@@ -20,6 +20,13 @@ export default function ResourcesLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="investorTermDictionary"
+        options={{
+          title: "Investor Term Dictionary",
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }

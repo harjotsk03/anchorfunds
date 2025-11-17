@@ -36,7 +36,7 @@ export default function Resources() {
           <View>
             <TouchableOpacity
               onPress={() => {
-                // router.push("/calculator");
+                router.push("/resources/investmentCalculationSimulator");
               }}
               style={styles.containerTool}
               activeOpacity={0.8}
@@ -65,7 +65,7 @@ export default function Resources() {
           <View>
             <TouchableOpacity
               onPress={() => {
-                // router.push("/calculator");
+                router.push("/resources/investorTermDictionary");
               }}
               style={styles.containerTool}
               activeOpacity={0.8}
