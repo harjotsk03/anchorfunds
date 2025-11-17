@@ -56,11 +56,18 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <GraduationCap size={20} color={color} />,
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="resources"
         options={{
           title: "Resources",
           tabBarIcon: ({ color }) => <BookOpenText size={20} color={color} />,
+        }}
+      /> */}
+      <Tabs.Screen
+        name="resources"
+        options={{
+          title: "Resources",
+          tabBarIcon: ({ color }) => <BookOpenText size={18} color={color} />,
         }}
       />
       <Tabs.Screen
