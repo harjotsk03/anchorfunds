@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react-native";
+import { ArrowRight, Lock } from "lucide-react-native";
 import React from "react";
 import {
   ScrollView,
@@ -8,6 +8,31 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+
+// Option 1: Define a proper type with index signature
+type StageConfig = {
+  name: string;
+  primaryColor: string;
+  lightColor: string;
+};
+
+const STAGE_CONFIG: Record<number, StageConfig> = {
+  1: {
+    name: "Stage One",
+    primaryColor: "#1C4A8A",
+    lightColor: "#d4e1ff",
+  },
+  2: {
+    name: "Stage Two",
+    primaryColor: "#FF8630",
+    lightColor: "#ffe4d1",
+  },
+  3: {
+    name: "Stage Three",
+    primaryColor: "#2ECC71",
+    lightColor: "#d4f4e2",
+  },
+};
 
 export default function Learn() {
   return (
@@ -19,7 +44,7 @@ export default function Learn() {
         <Text style={styles.headerProgress}>2/50 completed</Text>
       </View>
 
-      <ScrollView 
+      <ScrollView
         style={styles.scrollContainer}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -42,36 +67,79 @@ export default function Learn() {
           </TouchableOpacity>
         </View>
 
-        {/* Stage Section Title */}
-        <Text style={styles.stageTitle}>Stage One</Text>
+        {/* Stage One */}
+        <Text
+          style={[styles.stageTitle, { color: STAGE_CONFIG[1].primaryColor }]}
+        >
+          {STAGE_CONFIG[1].name}
+        </Text>
 
-        {/* Module Cards */}
         <ModuleCard
-          stage="Stage One"
+          stageNumber={1}
           title="Module One"
+          isLocked={false}
+          prerequisites="None"
           lessons="4/4 lessons completed"
           description="Learn budgeting, basic investing terminology and the importance of having a safety net before you invest to build wealth safely and worry free."
         />
 
         <ModuleCard
-          stage="Stage One"
+          stageNumber={1}
           title="Module Two"
+          prerequisites="None"
+          isLocked={false}
           lessons="10/10 lessons completed"
           description="Learn budgeting, basic investing terminology and the importance of having a safety net before you invest to build wealth safely and worry free."
         />
 
         <ModuleCard
-          stage="Stage One"
-          title="Module Two"
-          lessons="10/10 lessons completed"
+          stageNumber={1}
+          title="Module Three"
+          prerequisites="None"
+          isLocked={false}
+          lessons="2/8 lessons completed"
           description="Learn budgeting, basic investing terminology and the importance of having a safety net before you invest to build wealth safely and worry free."
         />
 
         <ModuleCard
-          stage="Stage One"
-          title="Module Two"
-          lessons="10/10 lessons completed"
+          stageNumber={1}
+          title="Module Four"
+          isLocked={true}
+          prerequisites="Modules 1-3"
+          lessons="0/12 lessons completed"
           description="Learn budgeting, basic investing terminology and the importance of having a safety net before you invest to build wealth safely and worry free."
+        />
+
+        {/* Stage Two */}
+        <Text
+          style={[styles.stageTitle, { color: STAGE_CONFIG[2].primaryColor }]}
+        >
+          {STAGE_CONFIG[2].name}
+        </Text>
+
+        <ModuleCard
+          stageNumber={2}
+          title="Module Five"
+          isLocked={true}
+          prerequisites="Modules 1-4"
+          lessons="0/4 lessons completed"
+          description="Learn budgeting, basic investing terminology and the importance of having a safety net before you invest to build wealth safely and worry free."
+        />
+
+        {/* Stage Three */}
+        <Text
+          style={[styles.stageTitle, { color: STAGE_CONFIG[3].primaryColor }]}
+        >
+          {STAGE_CONFIG[3].name}
+        </Text>
+
+        <ModuleCard
+          stageNumber={3}
+          title="Module Six"
+          isLocked={true}
+          prerequisites="Modules 1-5"
+          lessons="0/8 lessons completed"
+          description="Master advanced investing concepts and learn about risk management."
         />
       </ScrollView>
     </View>
@@ -79,19 +147,27 @@ export default function Learn() {
 }
 
 function ModuleCard({
-  stage,
+  stageNumber,
   title,
   lessons,
   description,
+  isLocked,
+  prerequisites,
 }: {
-  stage: string;
+  stageNumber: number;
   title: string;
+  isLocked: boolean;
   lessons: string;
   description: string;
+  prerequisites: string;
 }) {
+  const stageConfig = STAGE_CONFIG[stageNumber];
+
   return (
     <View style={styles.card}>
-      <Text style={styles.cardStage}>{stage}</Text>
+      <Text style={[styles.cardStage, { color: stageConfig.primaryColor }]}>
+        {stageConfig.name}
+      </Text>
 
       <View style={styles.cardHeaderRow}>
         <Text style={styles.cardTitle}>{title}</Text>
@@ -99,12 +175,29 @@ function ModuleCard({
       </View>
 
       <Text style={styles.cardDescription}>{description}</Text>
+      <Text style={styles.cardPrerequisites}>
+        Prerequisites: {prerequisites}
+      </Text>
 
-      <TouchableOpacity style={styles.cardButton}>
-        <View style={styles.cardButtonContent}>
-          <Text style={styles.cardButtonText}>See Lessons</Text>
-          <ArrowRight color="white" size={15} />
-        </View>
+      <TouchableOpacity
+        disabled={isLocked}
+        style={[
+          styles.cardButton,
+          { backgroundColor: stageConfig.primaryColor },
+          isLocked && styles.cardButtonLocked,
+        ]}
+      >
+        {isLocked ? (
+          <View style={styles.cardButtonContent}>
+            <Text style={styles.cardButtonText}>Locked</Text>
+            <Lock color="white" size={15} />
+          </View>
+        ) : (
+          <View style={styles.cardButtonContent}>
+            <Text style={styles.cardButtonText}>See Lessons</Text>
+            <ArrowRight color="white" size={15} />
+          </View>
+        )}
       </TouchableOpacity>
     </View>
   );
@@ -117,11 +210,11 @@ const styles = StyleSheet.create({
   },
 
   scrollContainer: {
-    flex: 1, // Add this
+    flex: 1,
   },
 
   scrollContent: {
-    paddingBottom: 40, // Add padding at the bottom so last card isn't cut off
+    paddingBottom: 40,
   },
 
   /* HEADER */
@@ -192,8 +285,8 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontFamily: "DMSans_500Medium",
     marginBottom: 10,
+    marginTop: 20,
     paddingHorizontal: 20,
-    color: "#1C4A8A",
   },
 
   /* CARD */
@@ -205,7 +298,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   cardStage: {
-    color: "#1C4A8A",
     fontSize: 14,
     fontFamily: "DMSans_500Medium",
     marginBottom: 6,
@@ -231,22 +323,35 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
 
+  cardPrerequisites: {
+    marginTop: 10,
+    color: "#afafafff",
+    fontSize: 14,
+    fontFamily: "DMSans_400Regular",
+    lineHeight: 22,
+  },
+
   cardButton: {
-    backgroundColor: "#1C4A8A",
     marginTop: 16,
     paddingVertical: 10,
     borderRadius: 12,
     paddingHorizontal: 16,
     alignSelf: "flex-start",
+    marginLeft: "auto",
   },
+
+  cardButtonLocked: {
+    opacity: 0.3,
+  },
+
   cardButtonContent: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6, // small gap between text and arrow
+    gap: 6,
   },
   cardButtonText: {
     fontFamily: "DMSans_500Medium",
-    color: "white", // ensure text is white
+    color: "white",
     fontSize: 14,
   },
 });
