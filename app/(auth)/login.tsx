@@ -1,8 +1,10 @@
+import LoginStageFour from "@/components/login/LoginStageFour";
 import LoginStageOne from "@/components/login/LoginStageOne";
+import LoginStageThree from "@/components/login/LoginStageThree";
 import LoginStageTwo from "@/components/login/LoginStageTwo";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -32,6 +34,10 @@ export default function Login() {
         return <LoginStageOne setCurrentStage={setCurrentStage} />;
       case 2:
         return <LoginStageTwo setCurrentStage={setCurrentStage} />;
+      case 3:
+        return <LoginStageThree setCurrentStage={setCurrentStage} />;
+      case 4:
+        return <LoginStageFour setCurrentStage={setCurrentStage} />;
       default:
         return <LoginStageOne setCurrentStage={setCurrentStage} />;
     }
@@ -45,9 +51,48 @@ export default function Login() {
         backgroundColor: "white",
       }}
     >
-      <Animated.View style={[{ flex: 1 }, animatedStyle]}>
-        {renderStage()}
-      </Animated.View>
+      <>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>
+            Anchor<Text style={styles.headerTitle2}>Funds</Text>
+          </Text>
+        </View>
+        <Animated.View style={[{ flex: 1 }, animatedStyle]}>
+          {renderStage()}
+        </Animated.View>
+      </>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 72,
+    paddingBottom: 16,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e5e5",
+  },
+  closeButton: {
+    position: "absolute",
+    left: 20,
+    top: 60,
+  },
+  closeText: {
+    fontSize: 24,
+    color: "#000",
+  },
+  headerTitle: {
+    fontSize: 17,
+    fontFamily: "DMSans_500Medium",
+    color: "#1C4A8A",
+  },
+  headerTitle2: {
+    fontSize: 17,
+    fontFamily: "DMSans_500Medium",
+    color: "#5b9fffff",
+  },
+});

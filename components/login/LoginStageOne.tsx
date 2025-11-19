@@ -92,12 +92,6 @@ export default function LoginStageOne({
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={0}
     >
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>
-          Anchor<Text style={styles.headerTitle2}>Funds</Text>
-        </Text>
-      </View>
-
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
@@ -252,7 +246,9 @@ export default function LoginStageOne({
                 onPress={() => setShowPassword(!showPassword)}
                 style={styles.eyeIcon}
               >
-                <Text style={styles.eyeText}>{showPassword ? <EyeClosed /> : <Eye/>}</Text>
+                <Text style={styles.eyeText}>
+                  {showPassword ? <EyeClosed /> : <Eye />}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -292,7 +288,7 @@ export default function LoginStageOne({
             onPress={() => setCurrentStage(2)}
             style={styles.createButton}
           >
-            <Text style={styles.createButtonText}>Create Account</Text>
+            <Text style={styles.createButtonText}>Continue</Text>
           </TouchableOpacity>
 
           <View style={styles.divider}>
@@ -320,35 +316,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 72,
-    paddingBottom: 16,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
-  },
-  closeButton: {
-    position: "absolute",
-    left: 20,
-    top: 60,
-  },
-  closeText: {
-    fontSize: 24,
-    color: "#000",
-  },
-  headerTitle: {
-    fontSize: 17,
-    fontFamily: "DMSans_500Medium",
-    color: "#1C4A8A",
-  },
-  headerTitle2: {
-    fontSize: 17,
-    fontFamily: "DMSans_500Medium",
-    color: "#5b9fffff",
   },
   scrollView: {
     flex: 1,

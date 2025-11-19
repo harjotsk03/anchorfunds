@@ -1,6 +1,7 @@
-import { ArrowLeft, ArrowRight } from "lucide-react-native";
+import { ArrowLeft } from "lucide-react-native";
 import { useState } from "react";
 import {
+  Animated,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -19,6 +20,30 @@ export default function LoginStageTwo({
   const [hourlyRate, setHourlyRate] = useState("");
   const [hoursPerMonth, setHoursPerMonth] = useState("");
   const [yearlySalary, setYearlySalary] = useState("");
+  const [hourlyRateFocused, sethourlyRateFocused] = useState(false);
+  const [hourlyRateAnim] = useState(new Animated.Value(0));
+
+  const animateLabel = (
+    animation: Animated.Value,
+    isFocused: boolean,
+    hasValue: boolean
+  ) => {
+    Animated.timing(animation, {
+      toValue: isFocused || hasValue ? 1 : 0,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const handlehourlyRateFocus = () => {
+    sethourlyRateFocused(true);
+    animateLabel(hourlyRateAnim, true, hourlyRate.length > 0);
+  };
+
+  const handlehourlyRateBlur = () => {
+    sethourlyRateFocused(false);
+    animateLabel(hourlyRateAnim, false, hourlyRate.length > 0);
+  };
 
   return (
     <KeyboardAvoidingView
@@ -32,11 +57,11 @@ export default function LoginStageTwo({
           style={{
             backgroundColor: "#ffffff",
             borderRadius: 10,
-            marginBottom: 20,
-            width: 55,
+            marginBottom: 14,
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
+            alignSelf: "flex-start",
           }}
         >
           <ArrowLeft color="#9b9b9bff" size={16} />
@@ -44,18 +69,18 @@ export default function LoginStageTwo({
             style={{
               color: "#9b9b9bff",
               fontFamily: "DMSans_500Medium",
-              marginLeft: 8,
+              fontSize: 12,
+              marginLeft: 4,
             }}
           >
             Back
           </Text>
         </TouchableOpacity>
-        <Text style={styles.title}>
-          Tell us about your{"\n"}finances to start.
-        </Text>
+
+        <Text style={styles.title}>Tell us about your finances.</Text>
         <Text style={styles.subtitle}>
-          Fill in the information regarding your{"\n"}income, estimate as best
-          you can.
+          Fill in the information regarding your income, don't worry you can
+          estimate as best you can.
         </Text>
 
         <View style={styles.formSection}>
@@ -98,39 +123,123 @@ export default function LoginStageTwo({
 
           {incomeType === "hourly" ? (
             <>
-              <Text style={styles.inputLabel}>Hourly Rate ($)</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="$"
-                placeholderTextColor="#9b9b9b"
-                value={hourlyRate}
-                onChangeText={setHourlyRate}
-                keyboardType="numeric"
-              />
-
-              <Text style={styles.inputLabel}>
-                Estimated hours per month (4 weeks)
-              </Text>
-              <TextInput
-                style={styles.input}
-                placeholder="e.g. 120"
-                placeholderTextColor="#9b9b9b"
-                value={hoursPerMonth}
-                onChangeText={setHoursPerMonth}
-                keyboardType="numeric"
-              />
+              <View style={styles.inputContainer}>
+                <Animated.Text
+                  style={[
+                    styles.floatingLabel,
+                    {
+                      top: hourlyRateAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [16, -8],
+                      }),
+                      fontSize: hourlyRateAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [16, 12],
+                      }),
+                      color: hourlyRateFocused ? "#000" : "#999",
+                    },
+                  ]}
+                >
+                  Hourly Rate
+                </Animated.Text>
+                <TextInput
+                  style={[
+                    styles.input,
+                    (hourlyRateFocused || hourlyRate) && styles.inputWithLabel,
+                  ]}
+                  value={hourlyRate}
+                  onChangeText={(text) => {
+                    setHourlyRate(text);
+                    animateLabel(
+                      hourlyRateAnim,
+                      hourlyRateFocused,
+                      text.length > 0
+                    );
+                  }}
+                  onFocus={handlehourlyRateFocus}
+                  onBlur={handlehourlyRateBlur}
+                  autoCapitalize="none"
+                />
+              </View>
             </>
           ) : (
             <>
-              <Text style={styles.inputLabel}>Yearly Salary ($)</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="$"
-                placeholderTextColor="#9b9b9b"
-                value={yearlySalary}
-                onChangeText={setYearlySalary}
-                keyboardType="numeric"
-              />
+              <View style={styles.inputContainer}>
+                <Animated.Text
+                  style={[
+                    styles.floatingLabel,
+                    {
+                      top: hourlyRateAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [16, -8],
+                      }),
+                      fontSize: hourlyRateAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [16, 12],
+                      }),
+                      color: hourlyRateFocused ? "#000" : "#999",
+                    },
+                  ]}
+                >
+                  Hourly Rate
+                </Animated.Text>
+                <TextInput
+                  style={[
+                    styles.input,
+                    (hourlyRateFocused || hourlyRate) && styles.inputWithLabel,
+                  ]}
+                  value={hourlyRate}
+                  onChangeText={(text) => {
+                    setHourlyRate(text);
+                    animateLabel(
+                      hourlyRateAnim,
+                      hourlyRateFocused,
+                      text.length > 0
+                    );
+                  }}
+                  onFocus={handlehourlyRateFocus}
+                  onBlur={handlehourlyRateBlur}
+                  autoCapitalize="none"
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <Animated.Text
+                  style={[
+                    styles.floatingLabel,
+                    {
+                      top: hourlyRateAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [16, -8],
+                      }),
+                      fontSize: hourlyRateAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [16, 12],
+                      }),
+                      color: hourlyRateFocused ? "#000" : "#999",
+                    },
+                  ]}
+                >
+                  Hourly Rate
+                </Animated.Text>
+                <TextInput
+                  style={[
+                    styles.input,
+                    (hourlyRateFocused || hourlyRate) && styles.inputWithLabel,
+                  ]}
+                  value={hourlyRate}
+                  onChangeText={(text) => {
+                    setHourlyRate(text);
+                    animateLabel(
+                      hourlyRateAnim,
+                      hourlyRateFocused,
+                      text.length > 0
+                    );
+                  }}
+                  onFocus={handlehourlyRateFocus}
+                  onBlur={handlehourlyRateBlur}
+                  autoCapitalize="none"
+                />
+              </View>
             </>
           )}
         </View>
@@ -139,10 +248,9 @@ export default function LoginStageTwo({
       <View style={styles.footer}>
         <TouchableOpacity
           onPress={() => setCurrentStage(3)}
-          style={styles.continueButton}
+          style={styles.createButton}
         >
-          <Text style={styles.continueText}>Continue</Text>
-          <ArrowRight color="#fff" size={20} />
+          <Text style={styles.createButtonText}>Continue</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -157,20 +265,21 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 24,
-    paddingTop: 60,
+    paddingTop: 30,
+    paddingBottom: 40,
   },
   title: {
-    fontSize: 32,
     fontFamily: "DMSans_700Bold",
+    fontSize: 26,
     color: "#000",
-    marginBottom: 12,
-    lineHeight: 40,
+    marginBottom: 4,
   },
   subtitle: {
     fontSize: 14,
+
     fontFamily: "DMSans_400Regular",
     color: "#9b9b9b",
-    marginBottom: 40,
+    marginBottom: 20,
     lineHeight: 22,
   },
   formSection: {
@@ -180,65 +289,73 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "DMSans_700Bold",
     color: "#000",
-    marginBottom: 16,
+    marginBottom: 10,
   },
   toggleContainer: {
     flexDirection: "row",
-    marginBottom: 24,
     gap: 12,
   },
   toggleButton: {
     flex: 1,
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    backgroundColor: "#f0f0f0",
+    paddingVertical: 10,
+    borderRadius: 4,
     alignItems: "center",
+    marginBottom: 20,
+    backgroundColor: "#f0f0f0",
   },
   toggleButtonActive: {
-    backgroundColor: "#4A90E2",
+    backgroundColor: "#1C4A8A",
   },
   toggleText: {
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: "DMSans_500Medium",
     color: "#666",
   },
   toggleTextActive: {
     color: "#fff",
   },
-  inputLabel: {
-    fontSize: 14,
-    fontFamily: "DMSans_500Medium",
-    color: "#000",
-    marginBottom: 8,
-    marginTop: 8,
-  },
-  input: {
-    backgroundColor: "#f7f7f7",
-    borderRadius: 8,
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    fontSize: 16,
-    fontFamily: "DMSans_400Regular",
-    color: "#000",
-    marginBottom: 16,
-  },
+
   footer: {
     paddingHorizontal: 24,
     paddingBottom: 40,
   },
-  continueButton: {
+  createButton: {
     backgroundColor: "#1C4A8A",
-    paddingVertical: 18,
-    borderRadius: 12,
-    flexDirection: "row",
+    paddingVertical: 16,
+    borderRadius: 4,
     alignItems: "center",
-    justifyContent: "center",
-    gap: 170,
+    marginBottom: 20,
   },
-  continueText: {
+  createButtonText: {
     color: "#fff",
     fontSize: 16,
     fontFamily: "DMSans_700Bold",
+  },
+  inputContainer: {
+    marginBottom: 16,
+    position: "relative",
+  },
+  floatingLabel: {
+    position: "absolute",
+    left: 16,
+    backgroundColor: "white",
+    paddingHorizontal: 4,
+    fontFamily: "DMSans_400Regular",
+    zIndex: 1,
+  },
+  input: {
+    backgroundColor: "white",
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderRadius: 4,
+    fontSize: 16,
+    fontFamily: "DMSans_400Regular",
+    color: "#000",
+    borderWidth: 1,
+    borderColor: "#d0d0d0",
+  },
+  inputWithLabel: {
+    paddingTop: 20,
+    paddingBottom: 12,
   },
 });
