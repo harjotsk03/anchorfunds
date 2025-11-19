@@ -1,57 +1,53 @@
+import LoginStageOne from "@/components/login/LoginStageOne";
+import LoginStageTwo from "@/components/login/LoginStageTwo";
 import { useRouter } from "expo-router";
-import { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useEffect, useState } from "react";
+import { View } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 
 export default function Login() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [currentStage, setCurrentStage] = useState(1);
 
-  const handleLogin = () => {
-    // Replace with real login logic
-    console.log({ email, password });
-    router.replace("/(tabs)"); // Navigate to main app after login
+  const translateY = useSharedValue(0);
+
+  useEffect(() => {
+    // Animate when stage changes
+    translateY.value = 30;
+
+    translateY.value = withSpring(0, { damping: 20000 });
+  }, [currentStage]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateY.value }],
+  }));
+
+  const renderStage = () => {
+    switch (currentStage) {
+      case 1:
+        return <LoginStageOne setCurrentStage={setCurrentStage} />;
+      case 2:
+        return <LoginStageTwo setCurrentStage={setCurrentStage} />;
+      default:
+        return <LoginStageOne setCurrentStage={setCurrentStage} />;
+    }
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", padding: 20 }}>
-      <Text style={{ fontSize: 24, marginBottom: 20 }}>Login</Text>
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        style={{
-          borderWidth: 1,
-          borderRadius: 8,
-          padding: 10,
-          marginBottom: 12,
-        }}
-      />
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        style={{
-          borderWidth: 1,
-          borderRadius: 8,
-          padding: 10,
-          marginBottom: 12,
-        }}
-      />
-      <TouchableOpacity
-        onPress={handleLogin}
-        style={{ backgroundColor: "#1C4A8A", padding: 12, borderRadius: 8 }}
-      >
-        <Text style={{ color: "#fff", textAlign: "center" }}>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-    //   onPress={() => router.push("/(auth)/register")}
-      >
-        <Text style={{ marginTop: 16, color: "#1C4A8A", textAlign: "center" }}>
-          Don't have an account? Register
-        </Text>
-      </TouchableOpacity>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        backgroundColor: "white",
+      }}
+    >
+      <Animated.View style={[{ flex: 1 }, animatedStyle]}>
+        {renderStage()}
+      </Animated.View>
     </View>
   );
 }
