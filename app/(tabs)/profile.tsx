@@ -34,6 +34,10 @@ export default function Profile() {
   const [isEnabledFaceID, setIsEnabledFaceID] = useState(true);
   const [isEnabled2FA, setIsEnabled2FA] = useState(false);
 
+  // NEW: UI-only state for linked accounts
+  const [isWealthsimpleLinked, setIsWealthsimpleLinked] = useState(false);
+  const [isGoogleLinked, setIsGoogleLinked] = useState(false);
+
   const handleSearchFocus = () => {
     setSearchFocused(true);
     animateLabel(searchAnim, true, search.length > 0);
@@ -177,6 +181,53 @@ export default function Profile() {
           <TouchableOpacity style={styles.contentButtonLast}>
             <Text style={styles.contentButtonLeftLast}>Download Your Data</Text>
             <View style={styles.contentButtonRight}>
+              <ArrowRight size={16} />
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* NEW: Linked Accounts section (UI only) */}
+      <View style={styles.sectionContainer}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.headerMain}>Linked Accounts</Text>
+          <Text style={styles.headerSub}>
+            Connect accounts to import and sync your data
+          </Text>
+        </View>
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity
+            style={styles.contentButton}
+            onPress={() => setIsWealthsimpleLinked((prev) => !prev)}
+          >
+            <Text style={styles.contentButtonLeftLast}>Wealthsimple</Text>
+            <View style={styles.contentButtonRight}>
+              <Text
+                style={[
+                  styles.linkStatusText,
+                  isWealthsimpleLinked && styles.linkStatusTextActive,
+                ]}
+              >
+                {isWealthsimpleLinked ? "Linked" : "Link"}
+              </Text>
+              <ArrowRight size={16} />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.contentButtonLast}
+            onPress={() => setIsGoogleLinked((prev) => !prev)}
+          >
+            <Text style={styles.contentButtonLeftLast}>Google</Text>
+            <View style={styles.contentButtonRight}>
+              <Text
+                style={[
+                  styles.linkStatusText,
+                  isGoogleLinked && styles.linkStatusTextActive,
+                ]}
+              >
+                {isGoogleLinked ? "Linked" : "Link"}
+              </Text>
               <ArrowRight size={16} />
             </View>
           </TouchableOpacity>
@@ -462,5 +513,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     rowGap: 4,
     borderRadius: 14,
+  },
+
+  linkStatusText: {
+    fontFamily: "DMSans_500Medium",
+    fontSize: 14,
+    color: "#767676ff",
+  },
+  linkStatusTextActive: {
+    color: "#1C4A8A",
   },
 });
