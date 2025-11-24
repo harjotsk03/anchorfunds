@@ -361,10 +361,10 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: "#1C4A8A",
-    paddingTop: 80,
+    paddingTop: 45,
     paddingBottom: 32,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
     paddingHorizontal: 24,
   },
   backButton: {
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 8,
     paddingVertical: 8,
-    marginBottom: 16,
+    marginBottom: 10,
   },
   backButtonText: {
     color: "white",
@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: "white",
-    fontSize: 32,
+    fontSize: 30,
     fontFamily: "DMSans_700Bold",
     marginTop: 8,
     lineHeight: 40,
