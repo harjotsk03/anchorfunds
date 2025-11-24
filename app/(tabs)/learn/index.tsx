@@ -1,7 +1,8 @@
 import { useRouter } from "expo-router";
 import { ArrowRight, Lock } from "lucide-react-native";
-import React from "react";
+import React, { useState } from "react";
 import {
+  Animated,
   ScrollView,
   StyleSheet,
   Text,
@@ -113,13 +114,39 @@ const MODULES: Module[] = [
 ];
 
 export default function Learn() {
-    const router = useRouter();
+  const router = useRouter();
   // Group modules by stage dynamically
   const modulesByStage: Record<number, Module[]> = {};
   MODULES.forEach((mod) => {
     if (!modulesByStage[mod.stage]) modulesByStage[mod.stage] = [];
     modulesByStage[mod.stage].push(mod);
   });
+
+  const animateLabel = (
+    animation: Animated.Value,
+    isFocused: boolean,
+    hasValue: boolean
+  ) => {
+    Animated.timing(animation, {
+      toValue: isFocused || hasValue ? 1 : 0,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const [search, setSearch] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
+  const [searchAnim] = useState(new Animated.Value(0));
+
+  const handleSearchFocus = () => {
+    setSearchFocused(true);
+    animateLabel(searchAnim, true, search.length > 0);
+  };
+
+  const handleSearchBlur = () => {
+    setSearchFocused(false);
+    animateLabel(searchAnim, false, search.length > 0);
+  };
 
   return (
     <View style={styles.container}>
@@ -136,11 +163,38 @@ export default function Learn() {
         showsVerticalScrollIndicator={false}
       >
         {/* Search */}
-        <View style={styles.searchContainer}>
+        <View style={styles.inputContainer}>
+          <Animated.Text
+            style={[
+              styles.floatingLabel,
+              {
+                top: searchAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [16, -8],
+                }),
+                fontSize: searchAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [16, 12],
+                }),
+                color: searchFocused ? "#000" : "#999",
+              },
+            ]}
+          >
+            Search for a module...
+          </Animated.Text>
           <TextInput
-            placeholder="Search for a lesson..."
-            placeholderTextColor="#999"
-            style={styles.searchInput}
+            style={[
+              styles.input,
+              (searchFocused || search) && styles.inputWithLabel,
+            ]}
+            value={search}
+            onChangeText={(text) => {
+              setSearch(text);
+              animateLabel(searchAnim, searchFocused, text.length > 0);
+            }}
+            onFocus={handleSearchFocus}
+            onBlur={handleSearchBlur}
+            autoCapitalize="words"
           />
         </View>
 
@@ -207,7 +261,7 @@ function ModuleCard({
         <Text style={styles.cardTitle}>{title}</Text>
       </View>
 
-      <Text style={styles.cardLessons}>{lessons}</Text>
+      <Text style={styles.cardPrerequisites}>{lessons}</Text>
 
       <Text style={styles.cardDescription}>{description}</Text>
       <Text style={styles.cardPrerequisites}>
@@ -216,23 +270,19 @@ function ModuleCard({
 
       <TouchableOpacity
         disabled={isLocked}
-        onPress={onPress} // Add this
-        style={[
-          styles.cardButton,
-          { backgroundColor: stageConfig.primaryColor },
-          isLocked && styles.cardButtonLocked,
-        ]}
+        onPress={onPress}
+        style={styles.createButton}
       >
-        <View style={styles.cardButtonContent}>
-          <Text style={styles.cardButtonText}>
-            {isLocked ? "Locked" : "See Lessons"}
-          </Text>
+        <Text style={styles.createButtonText}>
+          {isLocked ? "Locked" : "See Lessons"}
+        </Text>
+        <Text style={styles.createButtonText}>
           {isLocked ? (
             <Lock color="white" size={15} />
           ) : (
             <ArrowRight color="white" size={15} />
           )}
-        </View>
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -279,7 +329,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 20,
-    marginTop: 10,
     alignItems: "center",
   },
   allLessons: { fontSize: 13, fontFamily: "DMSans_400Regular", color: "#333" },
@@ -293,10 +342,10 @@ const styles = StyleSheet.create({
 
   /* STAGE TITLE */
   stageTitle: {
-    fontSize: 28,
+    fontSize: 24,
     fontFamily: "DMSans_500Medium",
-    marginBottom: 10,
-    marginTop: 20,
+    marginBottom: 6,
+    marginTop: 8,
     paddingHorizontal: 20,
   },
 
@@ -305,7 +354,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F6F6F6",
     marginHorizontal: 20,
     padding: 20,
-    borderRadius: 20,
+    borderRadius: 6,
     marginBottom: 20,
   },
   cardStage: { fontSize: 14, fontFamily: "DMSans_500Medium", marginBottom: 6 },
@@ -315,8 +364,8 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   cardTitle: {
-    fontSize: 20,
-    fontFamily: "DMSans_700Bold",
+    fontSize: 16,
+    fontFamily: "DMSans_600SemiBold",
     flex: 1,
     flexWrap: "wrap",
   },
@@ -327,16 +376,16 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   cardDescription: {
-    marginTop: 10,
-    color: "#6c6c6cff",
-    fontSize: 16,
+    fontSize: 14,
+    color: "black",
+    marginTop: 4,
     fontFamily: "DMSans_500Medium",
     lineHeight: 22,
   },
   cardPrerequisites: {
     marginTop: 10,
-    color: "#afafafff",
     fontSize: 14,
+    color: "#666",
     fontFamily: "DMSans_400Regular",
     lineHeight: 22,
   },
@@ -354,5 +403,52 @@ const styles = StyleSheet.create({
     fontFamily: "DMSans_500Medium",
     color: "white",
     fontSize: 14,
+  },
+  createButton: {
+    backgroundColor: "#1C4A8A",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 4,
+    marginTop: 10,
+    alignItems: "center",
+    flex: 1,
+    flexDirection: "row",
+    gap: 10,
+    marginLeft: "auto",
+  },
+  createButtonText: {
+    color: "#fff",
+    fontSize: 12,
+    fontFamily: "DMSans_500Medium",
+  },
+  inputContainer: {
+    marginBottom: 16,
+    position: "relative",
+    marginLeft: 15,
+    marginRight: 15,
+    marginTop: 15,
+  },
+  floatingLabel: {
+    position: "absolute",
+    left: 16,
+    backgroundColor: "white",
+    paddingHorizontal: 4,
+    fontFamily: "DMSans_400Regular",
+    zIndex: 1,
+  },
+  input: {
+    backgroundColor: "white",
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderRadius: 4,
+    fontSize: 16,
+    fontFamily: "DMSans_400Regular",
+    color: "#000",
+    borderWidth: 1,
+    borderColor: "#d0d0d0",
+  },
+  inputWithLabel: {
+    paddingTop: 20,
+    paddingBottom: 12,
   },
 });

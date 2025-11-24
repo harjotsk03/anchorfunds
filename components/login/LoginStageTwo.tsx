@@ -4,6 +4,7 @@ import {
   Animated,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -122,7 +123,7 @@ export default function LoginStageTwo({
           </View>
 
           {incomeType === "hourly" ? (
-            <>
+            <ScrollView>
               <View style={styles.inputContainer}>
                 <Animated.Text
                   style={[
@@ -161,9 +162,85 @@ export default function LoginStageTwo({
                   autoCapitalize="none"
                 />
               </View>
-            </>
+              <View style={styles.inputContainer}>
+                <Animated.Text
+                  style={[
+                    styles.floatingLabel,
+                    {
+                      top: hourlyRateAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [16, -8],
+                      }),
+                      fontSize: hourlyRateAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [16, 12],
+                      }),
+                      color: hourlyRateFocused ? "#000" : "#999",
+                    },
+                  ]}
+                >
+                  Estimated hours per month (4 weeks)
+                </Animated.Text>
+                <TextInput
+                  style={[
+                    styles.input,
+                    (hourlyRateFocused || hourlyRate) && styles.inputWithLabel,
+                  ]}
+                  value={hourlyRate}
+                  onChangeText={(text) => {
+                    setHourlyRate(text);
+                    animateLabel(
+                      hourlyRateAnim,
+                      hourlyRateFocused,
+                      text.length > 0
+                    );
+                  }}
+                  onFocus={handlehourlyRateFocus}
+                  onBlur={handlehourlyRateBlur}
+                  autoCapitalize="none"
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <Animated.Text
+                  style={[
+                    styles.floatingLabel,
+                    {
+                      top: hourlyRateAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [16, -8],
+                      }),
+                      fontSize: hourlyRateAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [16, 12],
+                      }),
+                      color: hourlyRateFocused ? "#000" : "#999",
+                    },
+                  ]}
+                >
+                  How much do you currently have saved?
+                </Animated.Text>
+                <TextInput
+                  style={[
+                    styles.input,
+                    (hourlyRateFocused || hourlyRate) && styles.inputWithLabel,
+                  ]}
+                  value={hourlyRate}
+                  onChangeText={(text) => {
+                    setHourlyRate(text);
+                    animateLabel(
+                      hourlyRateAnim,
+                      hourlyRateFocused,
+                      text.length > 0
+                    );
+                  }}
+                  onFocus={handlehourlyRateFocus}
+                  onBlur={handlehourlyRateBlur}
+                  autoCapitalize="none"
+                />
+              </View>
+            </ScrollView>
           ) : (
-            <>
+            <ScrollView>
               <View style={styles.inputContainer}>
                 <Animated.Text
                   style={[
@@ -181,7 +258,7 @@ export default function LoginStageTwo({
                     },
                   ]}
                 >
-                  Hourly Rate
+                  Yearly Salary
                 </Animated.Text>
                 <TextInput
                   style={[
@@ -219,7 +296,7 @@ export default function LoginStageTwo({
                     },
                   ]}
                 >
-                  Hourly Rate
+                  How much do you currently have saved?
                 </Animated.Text>
                 <TextInput
                   style={[
@@ -240,7 +317,7 @@ export default function LoginStageTwo({
                   autoCapitalize="none"
                 />
               </View>
-            </>
+            </ScrollView>
           )}
         </View>
       </View>
