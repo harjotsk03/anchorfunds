@@ -1,3 +1,4 @@
+import Slider from "@react-native-community/slider";
 import { useRouter } from "expo-router";
 import {
   AlertCircle,
@@ -14,6 +15,7 @@ import {
   Dimensions,
   Easing,
   Image,
+  Keyboard,
   KeyboardAvoidingView,
   Modal,
   Platform,
@@ -30,11 +32,15 @@ const { width } = Dimensions.get("window");
 export default function HomeScreen() {
   const router = useRouter();
   const [completedStages, setCompletedStages] = useState<number[]>([]);
+  const [currentExpenseAmount, setCurrentExpenseAmount] = useState(2000);
   const [safetyNetAmount, setSafetyNetAmount] = useState(1250);
-  const [safetyNetGoal] = useState(6000);
+  const [safetyNetGoal, setSafetyNetGoal] = useState(6000);
+  const [breakdownModalVisible, setBreakdownModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [addAmount, setAddAmount] = useState("");
   const [chatbotVisible, setChatbotVisible] = useState(false);
+  const [value, setValue] = useState(0);
+  const options = [3, 4, 5, 6];
   const [messages, setMessages] = useState<
     Array<{ id: string; text: string; sender: "user" | "bot" }>
   >([
@@ -48,6 +54,25 @@ export default function HomeScreen() {
     "Why do I have to save up money before I learn to invest?"
   );
   const slideAnim = new Animated.Value(0);
+
+  const openBreakdown = () => {
+    setBreakdownModalVisible(true);
+    Animated.timing(slideAnim, {
+      toValue: 1,
+      duration: 400,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const closeBreakdown = () => {
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: 300,
+      easing: Easing.in(Easing.cubic),
+      useNativeDriver: true,
+    }).start(() => setBreakdownModalVisible(false));
+  };
 
   const openChatbot = () => {
     setChatbotVisible(true);
@@ -224,10 +249,10 @@ export default function HomeScreen() {
               />
             </View>
           </View>
-
+          {/* 
           <View style={styles.rightContent}>
             <ChevronRight color="#999" size={24} />
-          </View>
+          </View> */}
         </View>
       </TouchableOpacity>
     );
@@ -317,8 +342,16 @@ export default function HomeScreen() {
               style={styles.addButton}
               onPress={() => setModalVisible(true)}
             >
-              <Plus color="white" size={20} />
+              <Plus color="white" size={16} />
               <Text style={styles.addButtonText}>Add to Safety Net</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                openBreakdown();
+              }}
+              style={styles.viewBreakdownButton}
+            >
+              <Text style={styles.viewBreakdownButtonText}>View Breakdown</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -412,6 +445,99 @@ export default function HomeScreen() {
           ))}
         </View>
       </ScrollView>
+
+      {breakdownModalVisible && (
+        <View style={styles.chatbotOverlay}>
+          <Animated.View
+            style={[
+              styles.chatbotContainer,
+              {
+                transform: [
+                  {
+                    translateY: slideAnim.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [Dimensions.get("window").height, 0],
+                    }),
+                  },
+                ],
+              },
+            ]}
+          >
+            {/* Header */}
+            <View style={styles.chatbotHeader}>
+              <Text style={styles.chatbotTitle}>Safety Net Breakdown</Text>
+              <TouchableOpacity onPress={closeBreakdown}>
+                <X color="#333" size={24} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.breakdownContainer}>
+              <Text style={styles.label}>Your Current Safety Net Goal:</Text>
+              <View style={styles.goalDisplay}>
+                <Text style={styles.goalAmount}>
+                  ${(currentExpenseAmount * options[value]).toFixed(2)}
+                </Text>
+              </View>
+
+              <Text style={styles.inputLabel}>Your Monthly Expenses</Text>
+              <TouchableOpacity
+                onPress={() => Keyboard.dismiss()}
+                activeOpacity={1}
+              >
+                <View style={styles.inputContainer}>
+                  <Text style={styles.currencySymbol}>$</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholderTextColor="#CCC"
+                    keyboardType="decimal-pad"
+                    value={currentExpenseAmount.toString()}
+                    onChangeText={(e) => {
+                      setCurrentExpenseAmount(parseFloat(e) || 0);
+                    }}
+                  />
+                </View>
+              </TouchableOpacity>
+
+              <View>
+                <Slider
+                  minimumTrackTintColor="#769ed5ff"
+                  maximumTrackTintColor="#E0E0E0"
+                  thumbTintColor="#1C4A8A"
+                  style={styles.slider}
+                  minimumValue={0}
+                  maximumValue={options.length - 1}
+                  value={value}
+                  onValueChange={(newValue) => setValue(Math.round(newValue))}
+                  step={1}
+                />
+                <View style={styles.labelsContainer}>
+                  {options.map((option, index) => (
+                    <Text
+                      key={index}
+                      style={[
+                        styles.label,
+                        index === value && styles.activeLabel,
+                      ]}
+                    >
+                      {option}x
+                    </Text>
+                  ))}
+                </View>
+              </View>
+
+              <TouchableOpacity
+                style={styles.saveButton}
+                onPress={() => {
+                  Keyboard.dismiss();
+                  setSafetyNetGoal(currentExpenseAmount * options[value]);
+                  closeBreakdown();
+                }}
+              >
+                <Text style={styles.saveButtonText}>Save Goal</Text>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
+        </View>
+      )}
 
       {chatbotVisible && (
         <View style={styles.chatbotOverlay}>
@@ -732,7 +858,23 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     fontSize: 14,
-    fontFamily: "DMSans_600SemiBold",
+    fontFamily: "DMSans_700Bold",
+    color: "white",
+  },
+  viewBreakdownButton: {
+    backgroundColor: "#1C4A8A",
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    marginTop: 10,
+    borderRadius: 6,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  },
+  viewBreakdownButtonText: {
+    fontSize: 14,
+    fontFamily: "DMSans_500Medium",
     color: "white",
   },
   stageCard: {
@@ -761,7 +903,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 8,
     position: "absolute",
     top: -38,
-    right: -32,
+    right: 0,
   },
   currentBadgeText: {
     fontSize: 11,
@@ -1167,5 +1309,52 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 14,
     fontFamily: "DMSans_600SemiBold",
+  },
+  breakdownContainer: {
+    flex: 1,
+    padding: 20,
+  },
+  slider: {
+    width: "100%",
+    height: 40,
+  },
+  labelsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+  },
+  label: {
+    fontSize: 12,
+    color: "#666",
+    fontFamily: "DMSans_500Medium",
+  },
+  activeLabel: {
+    color: "#1C4A8A",
+    fontFamily: "DMSans_700Bold",
+  },
+  goalDisplay: {
+    backgroundColor: "#f0f4f8",
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 20,
+    borderLeftWidth: 4,
+    borderLeftColor: "#1C4A8A",
+  },
+  goalAmount: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#1C4A8A",
+  },
+  saveButton: {
+    backgroundColor: "#1C4A8A",
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginTop: 20,
+    alignItems: "center",
+  },
+  saveButtonText: {
+    color: "#FFF",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

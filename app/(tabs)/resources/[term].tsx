@@ -1,19 +1,20 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import {
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export default function TermDetail() {
   const router = useRouter();
-  const { term, definition, letter } = useLocalSearchParams<{
+  const { term, definition, letter, example } = useLocalSearchParams<{
     term: string;
     definition: string;
     letter: string;
+    example: string;
   }>();
 
   return (
@@ -34,9 +35,7 @@ export default function TermDetail() {
         <Text style={styles.definition}>{definition}</Text>
 
         <Text style={styles.sectionTitle}>Example</Text>
-        <Text style={styles.exampleText}>
-          Example usage of {term} would go here...
-        </Text>
+        <Text style={styles.exampleText}>{example}</Text>
       </ScrollView>
     </View>
   );
@@ -89,5 +88,6 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     color: "#666",
     fontStyle: "italic",
+    marginBottom: 20,
   },
 });
