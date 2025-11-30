@@ -33,40 +33,42 @@ const DICTIONARY_TERMS: DictionaryTerm[] = [
   {
     letter: "A",
     term: "Accrued Interest",
-    definition: "Interest that has been earned but not yet paid.",
+    definition:
+      "Money that you've earned from an investment but haven't received yet. Think of it like hours you've worked but haven't been paid for—you've earned them, they're just waiting to be handed over.",
     example:
-      "A bond investor earns $50 in accrued interest between coupon payments.",
+      "You buy a bond that pays you interest every 6 months. Between payments, you earn $50 in interest that's sitting there waiting. That $50 is your accrued interest.",
   },
   {
     letter: "A",
     term: "Asset Allocation",
     definition:
-      "The strategy of dividing investments among different asset categories.",
+      "Dividing your money among different types of investments so you're not putting all your eggs in one basket. It's a way to balance risk and growth by spreading investments across stocks, bonds, cash, and other options.",
     example:
-      "A portfolio with 60% stocks, 30% bonds, and 10% cash is a common asset allocation.",
+      "Instead of putting all $100,000 into stocks, you split it: $60,000 in stocks (higher risk, higher reward), $30,000 in bonds (safer), and $10,000 in cash savings (safest). If stocks drop, your other investments cushion the blow.",
   },
   {
     letter: "A",
     term: "Appreciation",
-    definition: "Increase in the value of an asset over time.",
+    definition:
+      "When something you own becomes worth more money over time. It's the opposite of depreciation (losing value). Your investment grows without you doing anything.",
     example:
-      "A house purchased for $300,000 appreciates to $350,000 over five years.",
+      "You buy a house for $300,000. Five years later, similar homes in your area sell for $350,000. Your house appreciated by $50,000 even though you didn't improve it.",
   },
   {
     letter: "A",
     term: "Arbitrage",
     definition:
-      "The simultaneous purchase and sale of an asset to profit from price differences.",
+      "Buying something at a low price in one place and immediately selling it at a higher price in another place to make a quick profit. There's no risk because you're selling before you even finish buying.",
     example:
-      "A trader buys a stock for $50 on one exchange and sells it for $51 on another.",
+      "You notice a stock trading at $50 on the New York Stock Exchange but $51 on the London Stock Exchange. You instantly buy it for $50 and sell it for $51, pocketing the $1 difference risk-free.",
   },
   {
     letter: "A",
     term: "Annual Percentage Rate (APR)",
     definition:
-      "The yearly interest rate charged on borrowed money or earned through an investment.",
+      "The total yearly cost of borrowing money, shown as a percentage. It includes the interest rate plus any fees spread across a full year. This helps you compare different loans fairly.",
     example:
-      "A credit card with a 19.99% APR charges that rate annually on outstanding balances.",
+      "A credit card charges 19.99% APR. If you borrow $1,000 and don't pay it back for a year, you'll owe about $200 in interest charges. A personal loan might charge 5% APR, so the same $1,000 would only cost $50 in interest.",
   },
 
   // B
@@ -74,111 +76,117 @@ const DICTIONARY_TERMS: DictionaryTerm[] = [
     letter: "B",
     term: "Bear Market",
     definition:
-      "A market condition where prices are falling or expected to fall.",
+      "A period when the overall stock market is going down and investors are scared and selling. Prices keep falling because everyone is worried about losing money. It's called 'bear' because bears swipe their paws downward.",
     example:
-      "During a bear market, stock indices like the S&P 500 decline by 20% or more.",
+      "In 2022, the stock market dropped by about 18%. Most stocks were falling, people were nervous about their investments, and news was all about the market decline. If it had dropped 20%+, it would be officially called a bear market.",
   },
   {
     letter: "B",
     term: "Blue Chip Stock",
-    definition: "Stock of a well-established and financially sound company.",
+    definition:
+      "Stock from a huge, well-known company that's been around forever and is financially strong. These are the 'safest' company stocks because they're proven, profitable, and unlikely to go out of business. Think of them as the reliable big names you know.",
     example:
-      "Apple, Microsoft, and Johnson & Johnson are considered blue chip stocks.",
+      "Apple, Microsoft, Coca-Cola, and Johnson & Johnson are blue chip stocks. Everyone knows these companies, they make tons of money, and they've survived recessions. They're considered safer investments than smaller, newer companies.",
   },
   {
     letter: "B",
     term: "Budget",
     definition:
-      "A plan for managing income and expenses over a specific period.",
+      "A written plan that shows how much money you expect to earn and how you'll spend it. It helps you control your spending, avoid overspending, and save for goals. It's basically telling your money where to go instead of wondering where it went.",
     example:
-      "A monthly budget allocates $2,000 for rent, $400 for groceries, and $200 for entertainment.",
+      "You make $3,000 per month. Your budget says: $1,200 for rent, $400 for groceries, $150 for utilities, $300 for transportation, $500 for fun, and $450 for savings. This way you know exactly how much you can spend on each category.",
   },
   {
     letter: "B",
     term: "Bond",
     definition:
-      "A fixed income instrument representing a loan made by an investor to a borrower.",
+      "An IOU you buy from a company or government. When you buy a bond, you're lending them money. They promise to pay you back with interest. It's basically a guaranteed paycheck because they agree upfront to pay you a specific amount at specific times.",
     example:
-      "An investor buys a 10-year government bond with a 3% coupon rate.",
+      "You buy a government bond for $10,000. The government promises to pay you 3% interest every year (that's $300 per year) and return your $10,000 after 10 years. You know exactly how much money you'll make, making it safer than stocks.",
   },
   {
     letter: "B",
     term: "Bankruptcy",
     definition:
-      "A legal process for individuals or businesses unable to repay debts.",
+      "A legal process when someone or a company owes so much money that they can't pay it back. A court gets involved to figure out what happens next—either they reorganize to pay back some debt over time or they liquidate (sell everything) to pay creditors.",
     example:
-      "A company filing for Chapter 11 bankruptcy can restructure while continuing operations.",
+      "A company owes $50 million but only has $10 million in assets. They file for bankruptcy. The court might let them reorganize and pay creditors back slowly from future profits, or sell off all their assets to raise money for creditors. Bankruptcy gives them a fresh start instead of being stuck forever.",
   },
 
   // C
   {
     letter: "C",
     term: "Capital Gains",
-    definition: "Profit from the sale of an asset or investment.",
+    definition:
+      "The profit you make when you sell an investment for more than you paid for it. It's the 'gain' or money left over after you subtract what you originally paid. The IRS taxes these gains, so it matters whether you held the investment for over a year (better tax rate) or less than a year (worse tax rate).",
     example:
-      "Selling a stock purchased for $100 at $150 generates a $50 capital gain.",
+      "You buy a stock for $100. Two years later, you sell it for $150. Your capital gain is $50—that's the profit. But you might owe taxes on that $50. If you had sold it after just 2 months, you'd pay more in taxes on the same $50 profit.",
   },
   {
     letter: "C",
     term: "Compound Interest",
     definition:
-      "Interest calculated on initial principal and accumulated interest.",
+      "Interest that earns interest. Your money grows faster because you're earning returns not just on your original investment, but also on all the interest that's already accumulated. Albert Einstein supposedly called it the 'eighth wonder of the world' because it's so powerful.",
     example:
-      "A $1,000 investment at 5% compounded annually grows to $1,102.50 after two years.",
+      "You invest $1,000 at 5% interest. After year one, you earn $50, so you have $1,050. Year two, you earn 5% on $1,050 (not just the original $1,000), which is $52.50, giving you $1,102.50. Your money grows faster over time because interest is stacking on top of interest.",
   },
   {
     letter: "C",
     term: "Cost",
-    definition: "The amount paid to acquire an asset or investment.",
+    definition:
+      "The original price you paid for an investment. This is important because the IRS uses it to calculate your profit when you sell. The difference between what you paid (cost) and what you sold it for is your gain or loss.",
     example:
-      "The cost basis of a stock is $45 per share if that's what you paid for it.",
+      "You buy Apple stock at $45 per share. That $45 is your cost basis. If you later sell it at $80, your gain per share is $35. If you sell it at $40, you have a $5 loss per share. Your cost basis is the starting point for calculating profit or loss.",
   },
   {
     letter: "C",
     term: "Cash Flow",
     definition:
-      "The net amount of cash being transferred in and out of a business or personal account.",
-    example: "A business has positive cash flow when revenue exceeds expenses.",
+      "The actual money moving in and out of your account or a business. Positive cash flow means more money is coming in than going out. Negative cash flow means more money is going out than coming in. It's different from profit because it focuses only on real cash, not promises or future earnings.",
+    example:
+      "A business makes $100,000 in sales (good!) but has to pay $120,000 in expenses this month. They have negative cash flow of -$20,000, even if they're technically profitable on paper. A freelancer who invoices clients for $5,000 work but hasn't been paid yet has $0 cash flow until the payment actually arrives.",
   },
   {
     letter: "C",
     term: "Cryptocurrency",
     definition:
-      "A digital or virtual currency that uses cryptography for security and operates independently of a central bank.",
+      "Digital money that exists only online and isn't controlled by any bank or government. It uses special math (cryptography) to secure transactions and verify ownership. Think of it as money for the internet—you can send it to anyone without a bank in the middle.",
     example:
-      "Bitcoin and Ethereum are cryptocurrencies traded on digital exchanges.",
+      "Bitcoin is the most famous cryptocurrency. Instead of storing it in a bank account, you store it in a digital wallet. You can send Bitcoin to someone across the world in minutes without a bank taking a cut. Ethereum is another popular cryptocurrency that lets you run programs on it, not just transfer money.",
   },
 
   // D
   {
     letter: "D",
     term: "Diversification",
-    definition: "Strategy of spreading investments to reduce risk.",
+    definition:
+      "Spreading your money across different types of investments so that if one fails, you don't lose everything. It's like not eating at just one restaurant—if that restaurant closes, you have other places to eat. Different investments perform differently depending on market conditions, so owning many types protects you.",
     example:
-      "An investor diversifies by owning stocks, bonds, real estate, and commodities.",
+      "Instead of putting all $100,000 into tech stocks, you spread it: $40,000 in stocks (various companies), $35,000 in bonds, $15,000 in real estate, $10,000 in commodities like gold. If tech stocks crash, your bonds and real estate might hold steady or even go up, cushioning your losses.",
   },
   {
     letter: "D",
     term: "Dividend",
     definition:
-      "A portion of a company's earnings distributed to shareholders.",
+      "A cash payment that a company gives to people who own its stock. It's the company saying, 'Thanks for being our shareholder, here's a piece of our profits.' You get paid just for owning the stock, without having to sell it. Some companies pay dividends regularly; others reinvest profits instead.",
     example:
-      "A company paying a $2 annual dividend distributes that amount to each shareholder quarterly.",
+      "You own 100 shares of a company that pays a $2 annual dividend. You get $200 per year ($2 × 100 shares) usually split into four quarterly payments of $50. You didn't have to do anything—just own the stock and collect the payments.",
   },
   {
     letter: "D",
     term: "Debt-to-Equity Ratio",
     definition:
-      "A measure of a company's financial leverage calculated by dividing total liabilities by shareholders' equity.",
+      "A number that shows how much a company relies on borrowed money versus money from owners. A low ratio means the company is mostly funded by owners' money (safer). A high ratio means the company is heavily in debt (riskier). It tells you how risky the company's finances are.",
     example:
-      "A company with $1M in debt and $2M in equity has a debt-to-equity ratio of 0.5.",
+      "Company A owes $1,000,000 in debt and shareholders own $2,000,000 worth (equity). The ratio is 0.5 ($1M ÷ $2M). Company B owes $5,000,000 with only $1,000,000 in equity—ratio of 5. Company B is riskier because it's loaded with debt. If sales drop, Company B might struggle to pay back all that debt.",
   },
   {
     letter: "D",
     term: "Default",
-    definition: "Failure to repay a debt according to agreed terms.",
+    definition:
+      "When someone borrows money and then doesn't pay it back as promised. They break the agreement. This can happen with credit cards, mortgages, car loans, or bonds. Defaulting destroys your credit and can result in legal action, repossession, or foreclosure.",
     example:
-      "A borrower defaults when missing a mortgage payment for more than 90 days.",
+      "You take out a mortgage and make payments on time for years. Then you stop paying for 3+ months. The bank marks it as a default. Your credit score drops significantly, the bank can foreclose and take your house, and you might get sued for the remaining balance.",
   },
 
   // E

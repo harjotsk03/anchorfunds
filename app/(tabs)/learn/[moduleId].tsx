@@ -8,6 +8,7 @@ import {
 } from "lucide-react-native";
 import { useState } from "react";
 import {
+  Alert,
   Animated,
   ScrollView,
   StyleSheet,
@@ -43,6 +44,7 @@ export default function ModuleLessons() {
     setSearchFocused(false);
     animateLabel(searchAnim, false, search.length > 0);
   };
+
   const { moduleId } = useLocalSearchParams<{ moduleId: string }>();
   const router = useRouter();
 
@@ -62,6 +64,7 @@ export default function ModuleLessons() {
           description:
             "Learn how to track your spending and create a simple monthly budget.",
           prerequisites: "None",
+          goTo: `nothing`,
         },
         {
           id: 2,
@@ -73,6 +76,7 @@ export default function ModuleLessons() {
           description:
             "Learn how to create a simple monthly budget that you can use in order to keep on track to hit your safety net goal.",
           prerequisites: "None",
+          goTo: `nothing`,
         },
         {
           id: 3,
@@ -84,6 +88,7 @@ export default function ModuleLessons() {
           description:
             "Understand how to track your expenses, from subscriptions to weekends out.",
           prerequisites: "None",
+          goTo: `nothing`,
         },
         {
           id: 4,
@@ -107,6 +112,7 @@ export default function ModuleLessons() {
           description:
             "Review all the budgeting concepts to become a pro and start saving.",
           prerequisites: "Lessions 1-3",
+          goTo: `nothing`,
         },
       ],
     },
@@ -152,6 +158,24 @@ export default function ModuleLessons() {
   const filteredLessons = currentModule.lessons.filter((lesson: any) =>
     lesson.title.toLowerCase().includes(search.toLowerCase())
   );
+
+  const handleLessonClick = (lesson: any) => {
+    // Only allow clicking on "Why Money Feels Stressful" lesson (id: 4)
+    if (lesson.id !== 4) {
+      Alert.alert(
+        "Demo Limitation",
+        "Please click on the 'Why Money Feels Stressful' lesson to continue.",
+        [{ text: "OK" }]
+      );
+      return;
+    }
+
+    // Allow navigation for the demo lesson
+    if (lesson.goTo !== "nothing") {
+      router.push(lesson.goTo);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View
@@ -235,9 +259,7 @@ export default function ModuleLessons() {
               </Text>
             </View>
             <TouchableOpacity
-              onPress={() => {
-                router.push(lesson.goTo);
-              }}
+              onPress={() => handleLessonClick(lesson)}
               style={styles.createButton}
             >
               <Text style={styles.createButtonText}>

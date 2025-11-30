@@ -9,7 +9,8 @@ import {
   Info,
   TrendingUp,
 } from "lucide-react-native";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+import type { ScrollView as ScrollViewType } from "react-native";
 import {
   Dimensions,
   FlatList,
@@ -102,6 +103,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function InvestmentCalculationSimulator() {
   const router = useRouter();
+  const scrollViewRef = useRef<ScrollViewType>(null);
 
   const [selectedETF, setSelectedETF] = useState(ETF_DATA[0]);
   const [initialAmount, setInitialAmount] = useState("10000");
@@ -165,6 +167,14 @@ export default function InvestmentCalculationSimulator() {
 
   const maxValue = Math.max(...projection.yearlyData.map((d) => d.value));
 
+  const handleCalculate = () => {
+    setShowResults(true);
+    // Scroll down 100px after state updates
+    setTimeout(() => {
+      scrollViewRef.current?.scrollTo({ y: 600, animated: true });
+    }, 100);
+  };
+
   const renderETFItem = ({ item }: { item: (typeof ETF_DATA)[0] }) => (
     <TouchableOpacity
       style={[
@@ -214,7 +224,7 @@ export default function InvestmentCalculationSimulator() {
           </Text>
         </View>
 
-        <ScrollView>
+        <ScrollView ref={scrollViewRef}>
           {/* ETF Selector */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Select ETF</Text>
@@ -302,7 +312,7 @@ export default function InvestmentCalculationSimulator() {
           <View style={styles.section}>
             <TouchableOpacity
               style={styles.calculateButton}
-              onPress={() => setShowResults(true)}
+              onPress={handleCalculate}
             >
               <Text style={styles.calculateButtonText}>Calculate Returns</Text>
             </TouchableOpacity>

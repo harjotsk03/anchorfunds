@@ -54,8 +54,8 @@ const MODULES: Module[] = [
     description:
       "Understand why an emergency fund is critical and how to start one.",
     lessons: "2/3 lessons completed",
-    prerequisites: "None",
-    isLocked: false,
+    prerequisites: "Module 1",
+    isLocked: true,
   },
   {
     stage: 1,
