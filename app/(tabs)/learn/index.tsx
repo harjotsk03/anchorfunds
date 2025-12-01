@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
 
   /* STAGE TITLE */
   stageTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontFamily: "DMSans_500Medium",
     marginBottom: 6,
     marginTop: 8,
@@ -357,14 +357,14 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginBottom: 20,
   },
-  cardStage: { fontSize: 14, fontFamily: "DMSans_500Medium", marginBottom: 6 },
+  cardStage: { fontSize: 16, fontFamily: "DMSans_500Medium", marginBottom: 6 },
   cardHeaderRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
   },
   cardTitle: {
-    fontSize: 16,
+    fontSize: 24,
     fontFamily: "DMSans_600SemiBold",
     flex: 1,
     flexWrap: "wrap",
@@ -372,11 +372,11 @@ const styles = StyleSheet.create({
   cardLessons: {
     color: "#464646ff",
     fontFamily: "DMSans_400Regular",
-    fontSize: 14,
+    fontSize: 16,
     marginTop: 4,
   },
   cardDescription: {
-    fontSize: 14,
+    fontSize: 16,
     color: "black",
     marginTop: 4,
     fontFamily: "DMSans_500Medium",
@@ -406,8 +406,8 @@ const styles = StyleSheet.create({
   },
   createButton: {
     backgroundColor: "#1C4A8A",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
     borderRadius: 4,
     marginTop: 10,
     alignItems: "center",
@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
   },
   createButtonText: {
     color: "#fff",
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: "DMSans_500Medium",
   },
   inputContainer: {

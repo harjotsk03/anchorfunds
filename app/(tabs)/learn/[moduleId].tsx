@@ -356,26 +356,26 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   lessonTitle: {
-    fontSize: 16,
+    fontSize: 24,
     fontFamily: "DMSans_600SemiBold",
   },
   lessonDuration: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#666",
     fontFamily: "DMSans_400Regular",
-    marginTop: 6,
+    marginTop: 8,
   },
   lessonDescription: {
-    fontSize: 14,
+    fontSize: 16,
     color: "black",
-    marginTop: 4,
+    marginTop: 8,
     fontFamily: "DMSans_500Medium",
   },
   statusDot: {
-    width: 8,
-    height: 8,
+    width: 10,
+    height: 10,
     borderRadius: 6,
-    marginTop: 5.5,
+    marginTop: 10,
     backgroundColor: "#ddd",
   },
   statusDotCompleted: {
@@ -413,8 +413,8 @@ const styles = StyleSheet.create({
   },
   createButton: {
     backgroundColor: "#1C4A8A",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
     borderRadius: 4,
     marginTop: 10,
     alignItems: "center",
@@ -425,7 +425,7 @@ const styles = StyleSheet.create({
   },
   createButtonText: {
     color: "#fff",
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: "DMSans_500Medium",
   },
 });
